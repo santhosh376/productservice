@@ -6,6 +6,7 @@ import com.example.productserviceaprbatch24.dtos.fakestore.FakeStoreGetProductRe
 import com.example.productserviceaprbatch24.models.Product;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;

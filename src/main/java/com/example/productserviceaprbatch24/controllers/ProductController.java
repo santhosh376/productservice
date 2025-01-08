@@ -1,5 +1,6 @@
 package com.example.productserviceaprbatch24.controllers;
 
+import com.example.productserviceaprbatch24.dtos.ErrorResponseDto;
 import com.example.productserviceaprbatch24.dtos.products.*;
 import com.example.productserviceaprbatch24.models.Product;
 import com.example.productserviceaprbatch24.services.ProductService;
@@ -76,6 +77,7 @@ public class ProductController {
         return CreateProductResponseDto.fromProduct(
                 product
         );
+
     }
 
     //replacing the product by id
@@ -102,4 +104,5 @@ public class ProductController {
     public Product deleteProductById(@PathVariable("id") Long id) {
         return new Product();
     }
+
 }

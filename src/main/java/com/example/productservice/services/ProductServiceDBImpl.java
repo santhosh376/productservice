@@ -5,6 +5,7 @@ import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import com.example.productservice.repositories.CategoryRepository;
 import com.example.productservice.repositories.ProductRepository;
+import jakarta.persistence.Id;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -79,5 +80,14 @@ public class ProductServiceDBImpl implements ProductService {
             toPutInProduct = category.get();
         }
         return toPutInProduct;
+    }
+
+    @Override
+    public Product getProductById(Long id) throws ProductNotFoundException {
+        Optional<Product> productFound = productRepository.findById(id);
+        if(productFound.isEmpty()){
+            throw new ProductNotFoundException();
+        }
+        return productFound.get();
     }
 }

@@ -13,6 +13,6 @@ public interface ProductService {
 
    Product partialUpdateProduct(Long productId, Product product) throws ProductNotFoundException;
 
-
+   Product getProductById(Long id) throws ProductNotFoundException;
 }
 

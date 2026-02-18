@@ -5,6 +5,7 @@ import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.models.Product;
 import com.example.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -38,8 +39,23 @@ public class ProductController {
 
     //get the single product  by id
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id,@RequestBody Product product) {
-        return new Product();
+    public ResponseEntity<GetProductResponseDTO> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+
+        try {
+            if(id < 0 ){
+                throw new ProductNotFoundException();
+            }else if(id == 0){
+                throw new RuntimeException("Something went wrong");
+            }
+//            id++;
+            Product product = productService.getProductById(id);
+            GetProductResponseDTO response =  new GetProductResponseDTO();
+            GetProductDto productDto = GetProductDto.from(product);
+            response.setProduct(productDto);
+            return ResponseEntity.ok(response);
+        } catch (ProductNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //get all the products

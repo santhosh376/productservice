@@ -3,6 +3,7 @@ package com.example.productservice.services;
 import com.example.productservice.dtos.fakestore.FakeStoreCreateProductRequestDto;
 import com.example.productservice.dtos.fakestore.FakeStoreCreateProductResponseDto;
 import com.example.productservice.dtos.fakestore.FakeStoreGetProductResponseDto;
+import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.models.Product;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Service("fakeStoreProductService")
-@Primary
+//@Primary
 public class ProductServiceFakestoreImpl implements ProductService{
 
     private RestTemplate restTemplate;
@@ -71,5 +72,10 @@ public class ProductServiceFakestoreImpl implements ProductService{
                 FakeStoreGetProductResponseDto.class
            );
            return fakeStoreGetProductResponseDto.toProduct();
+    }
+
+    @Override
+    public Product getProductById(Long id) throws ProductNotFoundException {
+        return null;
     }
 }

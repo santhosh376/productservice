@@ -47,7 +47,7 @@ public class ProductController {
             }else if(id == 0){
                 throw new RuntimeException("Something went wrong");
             }
-//            id++;
+//          id++;
             Product product = productService.getProductById(id);
             GetProductResponseDTO response =  new GetProductResponseDTO();
             GetProductDto productDto = GetProductDto.from(product);

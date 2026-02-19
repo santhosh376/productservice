@@ -1,16 +1,19 @@
 package com.example.productservice.dtos.products;
 
 import com.example.productservice.models.Product;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)  //TestCase added code
 public class CreateProductResponseDto {
     private Long id;
     private String title;
     private String description;
-    private double price;
+    private Double price;
+//    private double price;
     private String imageUrl;
 
     public static CreateProductResponseDto fromProduct(Product product) {

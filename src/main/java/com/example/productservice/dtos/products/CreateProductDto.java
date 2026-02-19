@@ -2,6 +2,7 @@ package com.example.productservice.dtos.products;
 
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 

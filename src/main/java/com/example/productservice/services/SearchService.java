@@ -6,10 +6,7 @@ import com.example.productservice.models.Product;
 import com.example.productservice.repositories.ProductRepository;
 import com.example.productservice.services.filteringService.FilterFactory;
 import com.example.productservice.services.sortingService.SorterFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,12 +29,10 @@ public class SearchService {
         //                                        0 -> 4  //                        5  ->   9
         List<Product> products = productRepository.findByTitleContaining(query);
         for(FilterDto filterDto : filters ){
-            products = FilterFactory.getFilterFromKey(filterDto.getKey())
-                    .apply(products,filterDto.getValues());
+            products = FilterFactory.getFilterFromKey(filterDto.getKey()).apply(products,filterDto.getValues());
         }
 
-        products = SorterFactory.getSortByCriteria(sortingCriteria)
-                .sort(products);
+        products = SorterFactory.getSortByCriteria(sortingCriteria).sort(products);
 
         List<Product> productsOnPage = new ArrayList<>();
 
@@ -48,6 +43,30 @@ public class SearchService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize); // Adjust page number and size as needed
         return new PageImpl<>(productsOnPage, pageable, products.size());
 
+    }
+
+    //Implementing simple search using SpringJPA
+    public Page<Product> simpleSearch(
+            String query,
+            Long categoryId,
+            int pageNumber,
+            int pageSize,
+            String sortingAttribute
+    ) {
+        // select * from products
+        // where title like "%query%"
+        // and categoryID = {categoryId}
+        // limit {pageSize} offset pageNumber * pageSize
+        // orderBy sortingAttribute;
+        Page<Product> products = productRepository
+                .findAllByTitleContainingAndCategory_Id(
+                        query, categoryId,
+                        PageRequest.of(
+                                pageNumber,
+                                pageSize,
+                                Sort.by(sortingAttribute).descending()));
+
+        return products;
     }
 }
 

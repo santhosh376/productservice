@@ -49,7 +49,12 @@ public class SearchController {
 
     }
 
-
-
-
+    @GetMapping("/byCategory")
+    public SearchResponseDto simpleSearch(@RequestParam("query") String query,
+                                          @RequestParam("category") Long categoryId,
+                                          @RequestParam("pageNumber") int pageNumber,
+                                          @RequestParam("pageSize") int pageSize,
+                                          @RequestParam("sortingAttribute") String sortingAttribute) {
+        return null;
+    }
 }

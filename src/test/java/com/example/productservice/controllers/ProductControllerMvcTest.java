@@ -54,8 +54,7 @@ public class ProductControllerMvcTest {
         // Expected DTO response
         GetProductDto dto = GetProductDto.from(product);
 
-        GetAllProductsResponseDto responseDto =
-                new GetAllProductsResponseDto();
+        GetAllProductsResponseDto responseDto = new GetAllProductsResponseDto();
         responseDto.setProducts(List.of(dto));
 
         //Act & Assert

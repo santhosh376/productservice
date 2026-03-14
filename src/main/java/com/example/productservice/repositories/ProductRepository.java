@@ -54,4 +54,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     //3 ways to query a database 1.Query methods 2.JPA Queries 3.Native queries yourself
 
+    List<Product> findByTitleContaining(String query);
+
 }

@@ -36,7 +36,6 @@ public class ProductController {
         this.productService = productService;;
     }
 
-
     //get the single product  by id
     @GetMapping("/{id}")
     public ResponseEntity<GetProductResponseDTO> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {

@@ -163,6 +163,147 @@ Key tests:
     - `GET /products` returns the expected DTO structure.
     - `POST /products` creates a product via the mocked `ProductService` and returns the expected JSON.
 
+
+## Deployment
+
+The Product Service application was deployed on AWS using Elastic Beanstalk and connected to a MySQL database hosted on AWS RDS. This deployment demonstrates how a Spring Boot application can be packaged, deployed, and made accessible through a cloud environment.
+
+---
+
+### Infrastructure Used
+
+The following AWS services were used during deployment:
+
+- **AWS Elastic Beanstalk** – Application deployment and environment management
+- **AWS EC2** – Compute instance running the application
+- **AWS RDS (MySQL)** – Managed relational database service
+- **Elastic Load Balancer** – Routes incoming traffic to the application instance
+- **Nginx Reverse Proxy** – Handles HTTP requests and forwards them to the Spring Boot application
+
+---
+
+### Deployment Architecture
+
+The deployed architecture follows a standard backend cloud setup.
+Internet
+↓
+Elastic Load Balancer
+↓
+EC2 Instance (Elastic Beanstalk Environment)
+↓
+Nginx Reverse Proxy
+↓
+Spring Boot Application (Port 5000)
+↓
+AWS RDS MySQL Database (Port 3306)
+
+
+---
+
+### Build Process
+
+The Spring Boot application was packaged into an executable JAR using Maven.
+mvn clean package -DskipTests
+
+
+This command generated the deployable artifact located at:
+target/productservice-0.0.1-SNAPSHOT.jar
+
+
+This JAR file was uploaded to the Elastic Beanstalk environment for deployment.
+
+---
+
+### Deployment Steps
+
+1. Created an **Elastic Beanstalk Application** in AWS.
+2. Selected **Java Corretto platform** for running the Spring Boot application.
+3. Uploaded the generated **JAR file** to Elastic Beanstalk.
+4. Elastic Beanstalk automatically provisioned the required infrastructure including:
+  - EC2 instance
+  - Load balancer
+  - Nginx configuration
+5. Configured environment variables and database connection properties.
+6. Connected the application to **AWS RDS MySQL** database.
+7. Configured a health check endpoint to monitor application status.
+
+---
+
+### Health Check Configuration
+
+A health check endpoint was created in the application:
+/health
+
+Elastic Beanstalk periodically checks this endpoint to verify that the application is running correctly.  
+If the endpoint returns **HTTP 200**, the environment status becomes **Healthy (GREEN)**.
+
+---
+
+### Security Configuration
+
+Security groups were configured to control network access between services.
+
+- The **EC2 instance** accepts HTTP requests from the internet.
+- The **RDS database** allows MySQL access only from the EC2 instance security group.
+- Direct public access to the database is disabled.
+
+This ensures that the database remains secure and accessible only through the application server.
+
+---
+
+## AWS Security Groups Used in Deployment
+
+Security groups were configured to control network access between the application server and the database.
+
+The following security groups were used:
+
+- **Elastic Beanstalk EC2 Security Group** – Allows HTTP traffic to the application server.
+- **Elastic Load Balancer Security Group** – Handles incoming internet requests.
+- **RDS Security Group** – Allows MySQL connections from the EC2 instance only.
+
+This configuration ensures that the database is not publicly accessible and can only be accessed by the application server.
+
+### Deployment Proof
+
+The following screenshots demonstrate successful deployment.
+
+**1. Elastic Beanstalk Environment Status**
+
+![Elastic Beanstalk](images/elasticbeanstalk-green.png)
+
+---
+
+**2. AWS RDS Database Instance**
+
+![RDS Instance](images/rds-instance.png)
+
+---
+**3. EC2 Instance Running**
+
+![EC2 Instance 1](images/ec2-instance-running1.png)
+![EC2 Instance 2](images/ec2-instance-running2.png)
+
+---
+
+**4. Security Groups Overview**
+
+![Security Groups](images/security-groups.png)
+
+---
+
+**5 Custom Security Group for RDS (Port 3306)**
+
+![Custom Security Group](images/custom-security-group-for-RDS.png)
+
+---
+
+
+### Notes
+
+To avoid unnecessary AWS charges, the Elastic Beanstalk environment and related resources were terminated after testing the deployment. Screenshots included above serve as proof of successful deployment.
+
+
+
 ### Notes & next steps
 
 - **PUT/DELETE implementations**: The `replaceProduct` and `deleteProductById` methods in `ProductController` are currently placeholders and can be implemented using `ProductRepository` operations.

@@ -185,17 +185,15 @@ The following AWS services were used during deployment:
 ### Deployment Architecture
 
 The deployed architecture follows a standard backend cloud setup.
-Internet
-↓
-Elastic Load Balancer
-↓
-EC2 Instance (Elastic Beanstalk Environment)
-↓
-Nginx Reverse Proxy
-↓
-Spring Boot Application (Port 5000)
-↓
-AWS RDS MySQL Database (Port 3306)
+Internet   
+↓  
+Elastic Load Balancer    
+↓  
+EC2 Instance (Elastic Beanstalk Environment)    
+↓  
+Spring Boot Application (Port 5000)  
+↓  
+AWS RDS MySQL Database (Port 3306)  
 
 
 ---

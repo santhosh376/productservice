@@ -267,19 +267,19 @@ The following screenshots demonstrate successful deployment.
 
 **1. Elastic Beanstalk Environment Status**
 
-![Elastic Beanstalk](images/elasticbeanstalk-green.png)
+![Elastic Beanstalk Environment](images/elasticbeanstalk-environment.png)
 
 ---
 
 **2. AWS RDS Database Instance**
 
-![RDS Instance](images/rds-instance.png)
+![RDS Database](images/rds-productservice-db1.png)
 
 ---
 **3. EC2 Instance Running**
 
-![EC2 Instance 1](images/ec2-instance-running1.png)
-![EC2 Instance 2](images/ec2-instance-running2.png)
+![EC2 Instance](images/ec2-instance-productservicedb1.png)
+![EC2 Endpoints](images/ec2-instance-productservicedb1-Endpoints.png)
 
 ---
 

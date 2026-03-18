@@ -274,7 +274,7 @@ The following screenshots demonstrate successful deployment.
 **2. AWS RDS Database Instance**
 
 ![RDS Database](images/rds-productservice-db1.png)
-![EC2 Endpoints](images/ec2-instance-productservicedb1-Endpoints.png)
+![RDS Endpoints](images/rds-productservice-db1-Endpoints.png)
 
 ---
 **3. EC2 Instance Running**

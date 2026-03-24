@@ -11,6 +11,7 @@ A Spring Boot 3 RESTful API for managing products and categories, backed by MySQ
 - **Database**: MySQL
 - **Migrations**: Flyway (`src/main/resources/db/migration`)
 - **HTTP client**: `RestTemplate` (for FakeStore integration)
+- **Caching**: Redis (Spring Data Redis with `RedisTemplate`)
 - **Testing**: JUnit 5, Spring Boot Test, MockMvc
 
 ### Project structure (high level)
@@ -132,7 +133,29 @@ All endpoints are rooted at **`/products`** and handled by `ProductController`.
   - Demonstrates:
     - Mapping between internal `Product` model and FakeStore request/response DTOs.
     - Creating and fetching products from an external API.
+    - Redis-backed read-through caching for `getProductById`.
   - Currently not wired into `ProductController`, but can be injected via `@Qualifier("fakeStoreProductService")` if you want to switch to the FakeStore-backed implementation.
+
+### Redis caching usage
+
+Redis is used to cache product responses when the FakeStore-backed service is enabled.
+
+- **Connection configuration**
+  - Redis host and port are configured in `src/main/resources/application.properties`:
+    - `spring.data.redis.host=localhost`
+    - `spring.data.redis.port=6379`
+- **Redis template setup**
+  - `ApplicationConfiguration` defines a `RedisTemplate<String, Object>` bean.
+  - String serializers are used for keys/hash keys.
+  - `GenericJackson2JsonRedisSerializer` is used for values/hash values so `Product` objects are stored as JSON and can be safely deserialized.
+- **Cache strategy in service**
+  - In `ProductServiceFakestoreImpl#getProductById`, the app first checks Redis hash key `PRODUCTS` with field `PRODUCT_<id>`.
+  - On a **cache hit**, the product is returned directly from Redis.
+  - On a **cache miss**, the app fetches product data from FakeStore API and stores the mapped `Product` in Redis before returning it.
+  - This is a manual read-through caching approach that reduces repeated external API calls for the same product ID.
+- **How to run locally**
+  - Start Redis on your machine (default port `6379`) before running the Spring Boot app.
+  - Keep `spring.data.redis.*` values aligned with your local/container Redis instance.
 
 ### Global error handling
 

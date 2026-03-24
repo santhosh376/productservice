@@ -32,7 +32,7 @@ public class ProductController {
     //Dependency Injection
     private ProductService productService;
 
-    public ProductController(@Qualifier("dbProductService") ProductService productService) {
+    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
         this.productService = productService;;
     }
 
